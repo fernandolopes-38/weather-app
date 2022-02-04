@@ -18,7 +18,7 @@ export const Home: React.FC = () => {
           <LinksGrid>
             <Link to="/weather/dallol">Dallol</Link>
             <Link to="/weather/fairbanks">Fairbanks</Link>
-            <Link to="/weather/londres">Londres</Link>
+            <Link to="/weather/london">London</Link>
             <Link to="/weather/recife">Recife</Link>
             <Link to="/weather/vancouver">Vancouver</Link>
             <Link to="/weather/yakutsk">Yakutsk</Link>

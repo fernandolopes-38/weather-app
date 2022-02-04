@@ -36,7 +36,6 @@ export const ForecastTemperature: React.FC<ForecastTemperatureProps> = ({
     forecastHours.forEach((forecast) => {
       const hour = new Date(forecast.time).getHours();
       const condition = forecast.condition.icon;
-      console.log('forecast.condition', forecast.condition);
       if (hour >= 3 && hour < 9) {
         times.dawn.totalTemp += forecast.temp_c;
         times.dawn.conditions[condition] =

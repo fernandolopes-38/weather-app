@@ -29,12 +29,18 @@ export const MainTemperature: React.FC<MainTemperatureProps> = ({
       <div className={styles.column}>
         <span>C</span>
         <div className={styles.row}>
-          <FaLongArrowAltUp color={theme === 'snowy' ? '#6D6D6D' : '#B7E7EE'} />
+          <FaLongArrowAltUp
+            color={
+              theme === 'snowy' || theme === 'cloudy' ? '#6D6D6D' : '#B7E7EE'
+            }
+          />
           <p className={styles.subtext}>{maxTemp.toFixed(0)}</p>
         </div>
         <div className={styles.row}>
           <FaLongArrowAltDown
-            color={theme === 'snowy' ? '#6D6D6D' : '#B7E7EE'}
+            color={
+              theme === 'snowy' || theme === 'cloudy' ? '#6D6D6D' : '#B7E7EE'
+            }
           />
           <p className={styles.subtext}>{minTemp.toFixed(0)}</p>
         </div>

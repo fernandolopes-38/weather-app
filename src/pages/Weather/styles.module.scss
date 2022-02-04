@@ -1,7 +1,4 @@
-$color-white: #ffffff;
-$color-light-gray: #B7E7EE;
-$color-dark-gray: #6D6D6D;
-$color-black: #1F1F1F;
+@import "../../styles/colors";
 
 .container {
   width: 100%;
@@ -12,35 +9,46 @@ $color-black: #1F1F1F;
   animation: fade-in .5s;
 
   &.sunny {
-    background-image: linear-gradient(#57CBDC, #3BA1B5);
+    background-image: linear-gradient(#57CBDC, #4EBED0, #3BA1B5);
 
     .text__primary {
-      color: $color-white;
+      color: $light-primary;
     }
     .text__secondary {
-      color: $color-light-gray
+      color: $light-secondary;
     }
   }
 
   &.rainy {
-    background-image: linear-gradient(#616978, #3C4353);
+    background-image: linear-gradient(#616978, #545B6B, #3C4353);
 
     .text__primary {
-      color: $color-white;
+      color: $light-primary;
     }
     .text__secondary {
-      color: $color-light-gray
+      color:  $light-secondary;
+    }
+  }
+
+  &.cloudy {
+    background-image: linear-gradient(to bottom, #ebebeb, #dadada, #c9c9c9, #b8b8b8, #a8a8a8);
+
+    .text__primary {
+      color: $dark-primary;
+    }
+    .text__secondary {
+      color: $dark-secondary;
     }
   }
 
   &.snowy {
-    background-image: linear-gradient(#E0E0E0, #A6A6A6);
+    background-image: linear-gradient(#E0E0E0, #CBCBCB, #A6A6A6);
 
     .text__primary {
-      color: $color-black;
+      color: $dark-primary;
     }
     .text__secondary {
-      color: $color-dark-gray
+      color: $dark-secondary;
     }
   }
 
@@ -56,10 +64,16 @@ $color-black: #1F1F1F;
 
 .content {
   max-width: 400px;
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2.5rem;
+
   margin: 0 auto;
 
   header {
-    margin-top: 1.5rem;
     h1, h2 {
       text-transform: uppercase;
       text-align: center;
@@ -67,10 +81,12 @@ $color-black: #1F1F1F;
     
     h1 {
       font-weight: 400;
+      letter-spacing: 2px;
     }
     h2 {
       font-size: 1.25rem;
-      font-weight: 200;
+      font-weight: 300;
+      letter-spacing: 1.5px;
     }
   }
 
@@ -79,6 +95,17 @@ $color-black: #1F1F1F;
   }
 }
 
+.backLink {
+  position: fixed;
+
+  svg {
+    transition: transform .3s;
+
+    &:hover {
+      transform: scale(1.2);
+    }
+  }
+}
 
 .loadingContainer {
   height: 100vh;
@@ -86,4 +113,5 @@ $color-black: #1F1F1F;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  background-color: #0f0f0f;
 }

@@ -1,3 +1,4 @@
+@import "colors";
 
 * {
   padding: 0;
@@ -7,7 +8,7 @@
 
 
 body {
-  color: #ffffff;
+  color: $light-primary;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -17,9 +18,10 @@ input,
 textarea,
 button,
 select {
-  font: 400 1rem -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-  'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-  sans-serif;
+  font: 400 1rem "Roboto", sans-serif;
+  // font: 400 1rem -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  // 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  // sans-serif;
 }
 
 button {
@@ -32,6 +34,7 @@ a {
   text-decoration: none;
   cursor: pointer;
 }
+
 
 @media (max-width: 1080px) {
   html {

@@ -1,10 +1,22 @@
-import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { Router } from 'react-router-dom';
-import { Home } from '../pages/Home';
+import axios from 'axios';
 import { createMemoryHistory, MemoryHistory } from 'history';
+import React from 'react';
+import { BrowserRouter, Router } from 'react-router-dom';
+import { MainTemperature } from '../components/MainTemperature';
+import { Home } from '../pages/Home';
 import { Weather } from '../pages/Weather';
+
+jest.mock('axios');
+const MockedAxios = axios as jest.Mocked<typeof axios>;
+
+const mockedResponse = {
+  current: {
+    temp_c: 24,
+  },
+};
+MockedAxios.get.mockResolvedValue({ data: mockedResponse });
 
 describe('Home page test', () => {
   let history: MemoryHistory;
@@ -14,9 +26,9 @@ describe('Home page test', () => {
 
   test('Renders Home title', () => {
     render(
-      <Router location={history.location} navigator={history}>
+      <BrowserRouter>
         <Home />
-      </Router>
+      </BrowserRouter>
     );
 
     const title = screen.getByText('WEATHER');
@@ -36,18 +48,42 @@ describe('Home page test', () => {
 });
 
 describe('Weather page test', () => {
-  let history: MemoryHistory;
-  beforeAll(() => {
-    history = createMemoryHistory();
-  });
+  // beforeEach(() => jest.clearAllMocks());
+  // let history: MemoryHistory;
+  // beforeAll(() => {
 
-  it('shoudl render city name', () => {
+  // });
+
+  it('should render MainTemperature Component', async () => {
     render(
-      <Router location={history.location} navigator={history}>
-        <Weather />
-      </Router>
+      <MainTemperature
+        currentTemp={24}
+        maxTemp={34}
+        minTemp={20}
+        theme="sunny"
+      />
     );
-
-    screen.getByRole('');
+    expect(screen.getByText('24').innerHTML).toEqual('24');
   });
+
+  // it('shoudl render city name', async () => {
+  //   const history = createMemoryHistory({
+  //     initialEntries: ['/weather/recife'],
+  //   });
+  //   render(
+  //     <Router location={history.location} navigator={history}>
+  //       <Weather />
+  //     </Router>
+  //   );
+
+  //   screen.debug();
+
+  // const city = history.location.pathname.split('/')[2];
+  // const response = await MockedgetWeatherByCity(city);
+  // expect(MockedgetWeatherByCity).toHaveBeenCalledWith(city);
+  // console.log('city', city);
+  // await waitFor(() => {
+  //   screen.debug();
+  // });
+  // });
 });

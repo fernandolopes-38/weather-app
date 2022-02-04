@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { WiDirectionLeft } from 'react-icons/wi';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { ConditionIcon } from '../../components/ConditionIcon';
 import { FooterInfo } from '../../components/FooterInfo';
 import { ForecastTemperature } from '../../components/ForecastTemperature';
 import { Loader } from '../../components/Loader';
 import { MainTemperature } from '../../components/MainTemperature';
-import { api } from '../../services/api';
+import { getWeatherByCity } from '../../services/api';
 import { WeatherData } from '../../types';
 import { convertKmhToMs } from '../../utils/helpers';
 import styles from './styles.module.scss';
@@ -16,51 +16,52 @@ interface WeatherProps {}
 export const Weather: React.FC<WeatherProps> = ({}) => {
   const [weather, setWeather] = useState<WeatherData>();
   const [theme, setTheme] = useState('default');
+
   const params = useParams();
-  // console.log('params', params);
-
-  // const navigate = useNavigate();
-
   const { city } = params;
-  // console.log('ci  ty', city);
-  // if (!city) {
-  //   navigate('/error');
-  // }
+
+  const navigate = useNavigate();
 
   const setLayoutTheme = (condition: string) => {
-    switch (condition.toLowerCase()) {
-      case 'clear':
-      case 'sunny':
-        setTheme('sunny');
-        break;
-      case 'partly cloudy':
-      case 'light rain':
-      case 'patchy rain possible':
-        setTheme('snowy');
-        break;
-      default:
-        setTheme('default');
-    }
+    if (
+      condition.includes('cloudy') ||
+      condition.includes('overcast') ||
+      condition.includes('fog') ||
+      condition.includes('mist')
+    )
+      setTheme('cloudy');
+    else if (
+      condition.includes('snow') ||
+      condition.includes('sleet') ||
+      condition.includes('blizzard') ||
+      condition.includes('ice')
+    )
+      setTheme('snowy');
+    else if (condition.includes('rain') || condition.includes('drizzle'))
+      setTheme('rainy');
+    else setTheme('sunny');
   };
 
   useEffect(() => {
     const fetchCityWeather = async () => {
-      try {
-        const res = await api.get<WeatherData>(`/forecast.json?q=${city}`);
-        // console.log(res);
-        setWeather(res.data);
-        setLayoutTheme(res.data.current.condition.text);
-      } catch (error) {
-        console.log(error);
+      if (city) {
+        try {
+          const res = await getWeatherByCity(city);
+          setWeather(res);
+          setLayoutTheme(res.current.condition.text.toLowerCase());
+        } catch (error) {
+          navigate('/error');
+        }
       }
     };
-    if (city) fetchCityWeather();
+
+    fetchCityWeather();
   }, [city]);
 
   if (!weather) {
     return (
       <div className={styles.loadingContainer}>
-        <Loader />
+        <Loader color="#ffffff" />
       </div>
     );
   }
@@ -72,10 +73,12 @@ export const Weather: React.FC<WeatherProps> = ({}) => {
         ${styles[theme]}
       `}
     >
-      <Link to="/">
+      <Link to="/" className={styles.backLink}>
         <WiDirectionLeft
           size={46}
-          color={theme === 'sunny' ? '#fff' : '#000'}
+          color={
+            theme === 'snowy' || theme === 'cloudy' ? '#000000' : '#ffffff'
+          }
         />
       </Link>
 
@@ -122,6 +125,7 @@ export const Weather: React.FC<WeatherProps> = ({}) => {
               value: `${String(weather.current.humidity)}%`,
             },
           ]}
+          theme={theme}
         />
       </div>
     </div>

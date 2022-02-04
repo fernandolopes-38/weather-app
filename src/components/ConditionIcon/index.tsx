@@ -1,6 +1,4 @@
 import React from 'react';
-import styles from './styles.module.scss';
-
 import { WiCloudy, WiDaySunny, WiRainMix, WiSnow } from 'react-icons/wi';
 
 interface ConditionIconProps {

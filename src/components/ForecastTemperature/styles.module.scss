@@ -1,8 +1,4 @@
-$sunny-primary: #ffffff;
-$sunny-secondary: #B7E7EE;
-
-$color-dark-gray: #6D6D6D;
-$color-black: #1F1F1F;
+@import "../../styles/colors";
 
 
 .container {
@@ -10,10 +6,15 @@ $color-black: #1F1F1F;
   align-items: center;
   justify-content: space-between;
 
-  margin: 1rem 0;
+  margin-top: 1rem;
 
   p {
-    color: $sunny-primary;
+    color: $light-secondary;
+    
+    &.temp {
+      font-size: 1.25rem;
+      color: $light-primary;
+    }
   }
 
   span {
@@ -22,9 +23,15 @@ $color-black: #1F1F1F;
     }
   }
 
-  &.snowy {
+  &.snowy, &.cloudy {
+    
     p {
-      color: $color-black;
+      color: $dark-secondary;
+
+      &.temp {
+        font-size: 1.25rem;
+        color: $dark-primary;
+      }
     }
   }
 }
@@ -33,6 +40,4 @@ $color-black: #1F1F1F;
   display: flex;
   flex-direction: column;
   align-items: center;
-
-  gap: .25rem;
 }
