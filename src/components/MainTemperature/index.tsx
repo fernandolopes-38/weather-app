@@ -22,7 +22,10 @@ export const MainTemperature: React.FC<MainTemperatureProps> = ({
         ${styles[theme]}
       `}
     >
-      <span className={styles.currentTemperature}>
+      <span
+        className={styles.currentTemperature}
+        data-testid="currentTemperature"
+      >
         {currentTemp.toFixed(0)}
       </span>
 

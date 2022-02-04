@@ -63,7 +63,7 @@ describe('Weather page test', () => {
         theme="sunny"
       />
     );
-    expect(screen.getByText('24').innerHTML).toEqual('24');
+    expect(screen.getByTestId('currentTemperature').innerHTML).toEqual('24');
   });
 
   // it('shoudl render city name', async () => {
