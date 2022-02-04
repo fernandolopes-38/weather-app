@@ -72,7 +72,6 @@ export const Weather: React.FC<WeatherProps> = ({}) => {
         ${styles[theme]}
       `}
     >
-      {console.log('theme', theme)}
       <Link to="/">
         <WiDirectionLeft
           size={46}
@@ -100,6 +99,7 @@ export const Weather: React.FC<WeatherProps> = ({}) => {
 
           <ForecastTemperature
             forecastHours={weather.forecast.forecastday[0].hour}
+            theme={theme}
           />
         </main>
 
