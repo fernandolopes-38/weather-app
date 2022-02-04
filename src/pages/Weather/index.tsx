@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {
-  WiDirectionLeft
-} from 'react-icons/wi';
+import { WiDirectionLeft } from 'react-icons/wi';
 import { Link, useParams } from 'react-router-dom';
 import { ConditionIcon } from '../../components/ConditionIcon';
 import { FooterInfo } from '../../components/FooterInfo';
@@ -12,7 +10,6 @@ import { api } from '../../services/api';
 import { WeatherData } from '../../types';
 import { convertKmhToMs } from '../../utils/helpers';
 import styles from './styles.module.scss';
-
 
 interface WeatherProps {}
 
@@ -75,7 +72,7 @@ export const Weather: React.FC<WeatherProps> = ({}) => {
         ${styles[theme]}
       `}
     >
-      {console.log("theme", theme)}
+      {console.log('theme', theme)}
       <Link to="/">
         <WiDirectionLeft
           size={46}
@@ -84,10 +81,11 @@ export const Weather: React.FC<WeatherProps> = ({}) => {
       </Link>
 
       <div className={styles.content}>
-      
         <header>
           <h1 className={styles.text__primary}>{city}</h1>
-          <h2 className={styles.text__primary}>{weather?.current.condition.text}</h2>
+          <h2 className={styles.text__primary}>
+            {weather?.current.condition.text}
+          </h2>
         </header>
 
         <main>
@@ -95,6 +93,7 @@ export const Weather: React.FC<WeatherProps> = ({}) => {
             currentTemp={weather.current.temp_c}
             maxTemp={weather.forecast.forecastday[0].day.maxtemp_c}
             minTemp={weather.forecast.forecastday[0].day.mintemp_c}
+            theme={theme}
           />
 
           <ConditionIcon theme={theme} />
