@@ -1,0 +1,33 @@
+@use "../../styles/variables";
+
+.container {
+  display: flex;
+  justify-content: center;
+
+  margin: 1rem 0;
+
+  .currentTemperature {
+    font-size: 7rem;
+  }
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+
+  padding: 2rem 0;
+
+  span {
+    flex: 1;
+
+    font-size: 2rem;
+    color: variables.$sunny-primary;
+
+    margin-left: 1rem;
+  }
+}
+
+.row {
+  display: flex;
+  align-items: center;
+}
