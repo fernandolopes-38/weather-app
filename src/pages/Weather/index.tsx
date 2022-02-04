@@ -1,21 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import {
+  WiDirectionLeft
+} from 'react-icons/wi';
+import { Link, useParams } from 'react-router-dom';
+import { ConditionIcon } from '../../components/ConditionIcon';
+import { FooterInfo } from '../../components/FooterInfo';
+import { ForecastTemperature } from '../../components/ForecastTemperature';
+import { Loader } from '../../components/Loader';
+import { MainTemperature } from '../../components/MainTemperature';
 import { api } from '../../services/api';
-import { ForecastDay, WeatherData } from '../../types';
+import { WeatherData } from '../../types';
+import { convertKmhToMs } from '../../utils/helpers';
 import styles from './styles.module.scss';
 
-import mockedData from '../../mock.json';
-import { ConditionIcon } from '../../components/ConditionIcon';
-import {
-  WiCelsius,
-  WiDirectionDown,
-  WiDirectionLeft,
-  WiDirectionUp,
-} from 'react-icons/wi';
-import { FooterInfo } from '../../components/FooterInfo';
-import { convertKmhToMs } from '../../utils/helpers';
-import { Loader } from '../../components/Loader';
-import { ForecastTemperature } from '../../components/ForecastTemperature';
 
 interface WeatherProps {}
 
@@ -78,66 +75,56 @@ export const Weather: React.FC<WeatherProps> = ({}) => {
         ${styles[theme]}
       `}
     >
-      {/* {console.log('theme', theme)} */}
+      {console.log("theme", theme)}
       <Link to="/">
         <WiDirectionLeft
           size={46}
           color={theme === 'sunny' ? '#fff' : '#000'}
         />
       </Link>
-      <header>
-        <h1>{city}</h1>
-        <h2>{weather?.current.condition.text}</h2>
-      </header>
 
-      <main>
-        {/* <img src={weather.current.condition.icon} /> */}
+      <div className={styles.content}>
+      
+        <header>
+          <h1 className={styles.text__primary}>{city}</h1>
+          <h2 className={styles.text__primary}>{weather?.current.condition.text}</h2>
+        </header>
 
-        <div>
-          <div>
-            <span>{weather.current.temp_c}</span>
-          </div>
+        <main>
+          <MainTemperature
+            currentTemp={weather.current.temp_c}
+            maxTemp={weather.forecast.forecastday[0].day.maxtemp_c}
+            minTemp={weather.forecast.forecastday[0].day.mintemp_c}
+          />
 
-          <div>
-            <WiCelsius fontSize={32} />
-            <div>
-              <WiDirectionUp size={16} />
-              <p>{weather.forecast.forecastday[0].day.maxtemp_c}</p>
-            </div>
-            <div>
-              <WiDirectionDown fontSize={20} />
-              <p>{weather.forecast.forecastday[0].day.mintemp_c}</p>
-            </div>
-          </div>
-        </div>
+          <ConditionIcon theme={theme} />
 
-        <ConditionIcon theme={theme} />
+          <ForecastTemperature
+            forecastHours={weather.forecast.forecastday[0].hour}
+          />
+        </main>
 
-        <ForecastTemperature
-          forecastHours={weather.forecast.forecastday[0].hour}
+        <FooterInfo
+          footerItems={[
+            {
+              label: 'wind speed',
+              value: convertKmhToMs(weather.current.wind_kph),
+            },
+            {
+              label: 'sunrise',
+              value: weather.forecast.forecastday[0].astro.sunrise,
+            },
+            {
+              label: 'sunset',
+              value: weather.forecast.forecastday[0].astro.sunset,
+            },
+            {
+              label: 'humidity',
+              value: `${String(weather.current.humidity)}%`,
+            },
+          ]}
         />
-      </main>
-
-      <FooterInfo
-        footerItems={[
-          {
-            label: 'wind speed',
-            value: convertKmhToMs(weather.current.wind_kph),
-          },
-          {
-            label: 'sunrise',
-            value: weather.forecast.forecastday[0].astro.sunrise,
-          },
-          {
-            label: 'sunset',
-            value: weather.forecast.forecastday[0].astro.sunset,
-          },
-          {
-            label: 'humidity',
-            value: `${String(weather.current.humidity)}%`,
-          },
-        ]}
-      />
+      </div>
     </div>
   );
 };
