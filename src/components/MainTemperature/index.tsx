@@ -37,7 +37,7 @@ export const MainTemperature: React.FC<MainTemperatureProps> = ({
               theme === 'snowy' || theme === 'cloudy' ? '#6D6D6D' : '#B7E7EE'
             }
           />
-          <p className={styles.subtext}>{maxTemp.toFixed(0)}</p>
+          <p className={styles.subtext} data-testid="maxTemperature">{maxTemp.toFixed(0)}</p>
         </div>
         <div className={styles.row}>
           <FaLongArrowAltDown
@@ -45,7 +45,7 @@ export const MainTemperature: React.FC<MainTemperatureProps> = ({
               theme === 'snowy' || theme === 'cloudy' ? '#6D6D6D' : '#B7E7EE'
             }
           />
-          <p className={styles.subtext}>{minTemp.toFixed(0)}</p>
+          <p className={styles.subtext} data-testid="minTemperature">{minTemp.toFixed(0)}</p>
         </div>
       </div>
     </div>

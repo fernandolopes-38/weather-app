@@ -1,7 +1,12 @@
 export type WeatherData = {
+  location: LocationData;
   current: CurrentWeather;
   forecast: ForecastWeather;
 };
+
+type LocationData = {
+  localtime: string;
+}
 
 type CurrentWeather = {
   temp_c: number;

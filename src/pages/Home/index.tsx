@@ -13,7 +13,7 @@ export const Home: React.FC = () => {
         </header>
 
         <main>
-          <img src="/globe.png" />
+          <img src="/globe.png" alt="Globe icon" />
 
           <LinksGrid>
             <Link to="/weather/dallol">Dallol</Link>

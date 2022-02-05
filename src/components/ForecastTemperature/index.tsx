@@ -26,13 +26,13 @@ export const ForecastTemperature: React.FC<ForecastTemperatureProps> = ({
     afternoon: { temperature: '', condition: '' },
     night: { temperature: '', condition: '' },
   });
-  const times: Forecast = {
-    dawn: { totalTemp: 0, conditions: {} },
-    morning: { totalTemp: 0, conditions: {} },
-    afternoon: { totalTemp: 0, conditions: {} },
-    night: { totalTemp: 0, conditions: {} },
-  };
   useEffect(() => {
+    const times: Forecast = {
+      dawn: { totalTemp: 0, conditions: {} },
+      morning: { totalTemp: 0, conditions: {} },
+      afternoon: { totalTemp: 0, conditions: {} },
+      night: { totalTemp: 0, conditions: {} },
+    };
     forecastHours.forEach((forecast) => {
       const hour = new Date(forecast.time).getHours();
       const condition = forecast.condition.icon;

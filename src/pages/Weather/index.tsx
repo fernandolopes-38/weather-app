@@ -8,12 +8,11 @@ import { Loader } from '../../components/Loader';
 import { MainTemperature } from '../../components/MainTemperature';
 import { getWeatherByCity } from '../../services/api';
 import { WeatherData } from '../../types';
-import { convertKmhToMs } from '../../utils/helpers';
+import { convertKmhToMs, formatDate } from '../../utils/helpers';
 import styles from './styles.module.scss';
 
-interface WeatherProps {}
 
-export const Weather: React.FC<WeatherProps> = ({}) => {
+export const Weather: React.FC = () => {
   const [weather, setWeather] = useState<WeatherData>();
   const [theme, setTheme] = useState('default');
 
@@ -56,11 +55,11 @@ export const Weather: React.FC<WeatherProps> = ({}) => {
     };
 
     fetchCityWeather();
-  }, [city]);
+  }, [city,navigate]);
 
   if (!weather) {
     return (
-      <div className={styles.loadingContainer}>
+      <div className={styles.loadingContainer} data-testid="loader">
         <Loader color="#ffffff" />
       </div>
     );

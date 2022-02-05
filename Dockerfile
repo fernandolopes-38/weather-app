@@ -1,15 +1,18 @@
 # Imagem de Origem
 FROM node:16-alpine
 
-# Diretório de trabalho(é onde a aplicação ficará dentro do container).
-WORKDIR /weather-app
+# set working directory
+WORKDIR /app
 
-# Adicionando `/app/node_modules/.bin` para o $PATH
+# add `/app/node_modules/.bin` to $PATH
 ENV PATH /app/node_modules/.bin:$PATH
 
-# Instalando dependências da aplicação e armazenando em cache.
-COPY package.json /weather-app/package.json
-RUN npm install
+# install app dependencies
+COPY package.json ./
+RUN npm install --silent
+RUN mkdir node_modules/.cache && chmod -R 777 node_modules/.cache
+# add app
+COPY . ./
 
-# Inicializa a aplicação
+# start app
 CMD ["npm", "start"]

@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import axios from 'axios';
 import { createMemoryHistory, MemoryHistory } from 'history';
@@ -10,13 +10,6 @@ import { Weather } from '../pages/Weather';
 
 jest.mock('axios');
 const MockedAxios = axios as jest.Mocked<typeof axios>;
-
-const mockedResponse = {
-  current: {
-    temp_c: 24,
-  },
-};
-MockedAxios.get.mockResolvedValue({ data: mockedResponse });
 
 describe('Home page test', () => {
   let history: MemoryHistory;
@@ -48,11 +41,43 @@ describe('Home page test', () => {
 });
 
 describe('Weather page test', () => {
-  // beforeEach(() => jest.clearAllMocks());
-  // let history: MemoryHistory;
-  // beforeAll(() => {
+  beforeEach(() => jest.clearAllMocks());
 
-  // });
+  it("should first render loader", async () => {
+    render(
+      <BrowserRouter>
+        <Weather />
+      </BrowserRouter>
+    );
+
+    expect(screen.getByTestId("loader")).toBeInTheDocument();
+  });
+
+  it("should call api", async () => {
+    const mockedResponse = {
+      location: {
+        name: "Recife",
+        region: "Pernambuco",
+        country: "Brazil",
+        lat: -8.05,
+        lon: -34.9,
+        tz_id: "America/Noronha",
+        localtime_epoch: 1644014858,
+        localtime: "2022-02-04 20:47"
+      },
+      current: {
+        temp_c: 24,
+        condtion: {
+          text: "Clear"
+        }
+      },
+    };
+    MockedAxios.get.mockResolvedValue({ data: mockedResponse });
+    const res = await axios.get("Recife");
+    
+    expect(axios.get).toHaveBeenCalled();
+    expect(res.data.location.name).toEqual("Recife")
+  });
 
   it('should render MainTemperature Component', async () => {
     render(
@@ -64,26 +89,7 @@ describe('Weather page test', () => {
       />
     );
     expect(screen.getByTestId('currentTemperature').innerHTML).toEqual('24');
+    expect(screen.getByTestId('maxTemperature').innerHTML).toEqual('34');
+    expect(screen.getByTestId('minTemperature').innerHTML).toEqual('20');
   });
-
-  // it('shoudl render city name', async () => {
-  //   const history = createMemoryHistory({
-  //     initialEntries: ['/weather/recife'],
-  //   });
-  //   render(
-  //     <Router location={history.location} navigator={history}>
-  //       <Weather />
-  //     </Router>
-  //   );
-
-  //   screen.debug();
-
-  // const city = history.location.pathname.split('/')[2];
-  // const response = await MockedgetWeatherByCity(city);
-  // expect(MockedgetWeatherByCity).toHaveBeenCalledWith(city);
-  // console.log('city', city);
-  // await waitFor(() => {
-  //   screen.debug();
-  // });
-  // });
 });
